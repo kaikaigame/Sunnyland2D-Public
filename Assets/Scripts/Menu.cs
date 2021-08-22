@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class Menu : MonoBehaviour
 {
@@ -12,12 +13,17 @@ public class Menu : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);//加载下一个场景
+        //加载下一个场景
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void ExitGame()
     {
-        Application.Quit();//退出游戏
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+#else
+		Application.Quit();
+#endif
     }
 
     public void UIEnable()
@@ -44,7 +50,8 @@ public class Menu : MonoBehaviour
 
     public void EnterHouse()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);//加载下一个场景
+        //加载下一个场景
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void NewJumping()
@@ -59,8 +66,9 @@ public class Menu : MonoBehaviour
 
     public void ButtonDash()
     {
+        //超过上次的时间和CD时间
         if (Time.time >= (PlayerController.player.lastDash + 
-            PlayerController.player.dashCoolDown))//超过上次的时间和CD时间
+            PlayerController.player.dashCoolDown))
         {
             //可以执行dash
             PlayerController.player.ReadyToDash();
